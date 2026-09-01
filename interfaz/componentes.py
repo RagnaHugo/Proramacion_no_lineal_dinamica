@@ -82,7 +82,19 @@ def insignia(texto, color):
     )
 
 
-def tarjeta_resultado(titulo, contenido, bgcolor=None, col=None, height=None):
+def insignia_circular(nombre_icono, color, size=36):
+    """Círculo relleno de color con un ícono blanco adentro (ej. check, trofeo)."""
+    return ft.Container(
+        content=icono(nombre_icono, size=size * 0.55, color=tema.TEXTO_INVERSO),
+        width=size,
+        height=size,
+        bgcolor=color,
+        border_radius=999,
+        alignment=ft.Alignment(0, 0),
+    )
+
+
+def tarjeta_resultado(titulo, contenido, bgcolor=None, col=None, height=None, esquina=None):
     """Tarjeta responsiva para un paso del análisis (función, derivada, etc.).
 
     Pensada para vivir dentro de un ft.ResponsiveRow: `col` define cuánto
@@ -92,10 +104,18 @@ def tarjeta_resultado(titulo, contenido, bgcolor=None, col=None, height=None):
     `height`, si se da, fija el alto (ej. para que todas las tarjetas de
     una grilla se vean del mismo tamaño); el contenido gana scroll propio
     por si en algún caso no entra.
+    `esquina`, si se da, es un control chico (ícono) que se muestra a la
+    derecha del título — igual que en la imagen de referencia.
     """
+    fila_titulo = ft.Text(titulo, size=12, weight=ft.FontWeight.BOLD, color=tema.TEXTO_SUAVE)
+    if esquina:
+        fila_titulo = ft.Row(
+            controls=[fila_titulo, ft.Container(expand=True), esquina],
+        )
+
     columna = ft.Column(
             controls=[
-                ft.Text(titulo, size=12, weight=ft.FontWeight.BOLD, color=tema.TEXTO_SUAVE),
+                fila_titulo,
                 ft.Container(height=6),
                 contenido,
             ],

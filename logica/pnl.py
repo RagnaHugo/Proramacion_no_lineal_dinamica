@@ -8,9 +8,15 @@ import matplotlib.pyplot as plt
 import numpy as np
 import sympy as sp
 
+from .formula import renderizar_formula
 from .parser import interpretar_funcion
 
 x_sym = sp.symbols("x")
+
+
+def _tex(nombre):
+    """Escapa un nombre de función/variable para insertarlo en LaTeX."""
+    return nombre.replace("_", r"\_")
 
 
 @dataclass
@@ -21,6 +27,8 @@ class PuntoCritico:
     condicion: str      # "> 0", "< 0" o "= 0"
     tipo: str            # "Mínimo", "Máximo" o "Indeterminado"
     clasificacion: str   # "convexa", "cóncava" o "Convexa y Cóncava"
+    valor_critico_img: str = ""   # imagen "x = c"
+    punto_img: str = ""            # imagen "(c, f(c))"
 
 
 @dataclass
@@ -35,6 +43,10 @@ class ResultadoPNL:
     valores_criticos_str: list = field(default_factory=list)
     puntos: list = field(default_factory=list)  # de PuntoCritico
     imagen_b64: str = ""
+    funcion_img: str = ""
+    primera_derivada_img: str = ""
+    segunda_derivada_img: str = ""
+    ecuacion_critica_img: str = ""
 
 
 def graficar_funcion(expr, x_min=-10, x_max=10, puntos_criticos=None):
@@ -80,9 +92,12 @@ def resolver_pnl(funcion_txt):
     Analiza la función: calcula derivadas, halla puntos críticos, evalúa la
     concavidad y clasifica máximos/mínimos.
 
-    Devuelve un ResultadoPNL con cada paso ya separado para la interfaz.
+    Devuelve un ResultadoPNL con cada paso ya separado para la interfaz,
+    incluyendo imágenes con tipografía matemática real (ver logica/formula.py).
     """
     nombre, x, f = interpretar_funcion(funcion_txt)
+    nombre_tex = _tex(nombre)
+    x_tex = sp.latex(x)
 
     f1 = sp.diff(f, x)
     f2 = sp.diff(f1, x)
@@ -110,6 +125,8 @@ def resolver_pnl(funcion_txt):
             condicion=condicion,
             tipo=tipo,
             clasificacion=clasificacion,
+            valor_critico_img=renderizar_formula(f"{x_tex} = {sp.latex(c)}", fontsize=16),
+            punto_img=renderizar_formula(f"({sp.latex(c)}, {sp.latex(valor_y)})", fontsize=16),
         ))
 
         try:
@@ -136,4 +153,8 @@ def resolver_pnl(funcion_txt):
         valores_criticos_str=[f"{x} = {c}" for c in criticos_reales],
         puntos=puntos,
         imagen_b64=img_b64,
+        funcion_img=renderizar_formula(f"{nombre_tex}({x_tex}) = {sp.latex(f)}"),
+        primera_derivada_img=renderizar_formula(f"{nombre_tex}'({x_tex}) = {sp.latex(f1)}"),
+        segunda_derivada_img=renderizar_formula(f"{nombre_tex}''({x_tex}) = {sp.latex(f2)}"),
+        ecuacion_critica_img=renderizar_formula(f"{sp.latex(f1)} = 0", fontsize=18),
     )

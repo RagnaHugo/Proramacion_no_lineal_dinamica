@@ -10,15 +10,25 @@ import itertools
 
 import libreria_grafica_hugo as ft
 
+from logica.formula import renderizar_formula
 from logica.pnl import resolver_pnl
 
 from . import iconos, tema
-from .componentes import icono, insignia, tarjeta_resultado
+from .componentes import icono, insignia, insignia_circular, tarjeta_resultado
 
 COL_MITAD = {"xs": 12, "md": 6}
 COL_COMPLETA = {"xs": 12}
 ALTURA_TABS = 560
-ALTURA_TARJETA_RESUMEN = 180  # todas las tarjetas de la grilla "Resumen" miden igual
+ALTURA_TARJETA_RESUMEN = 210  # todas las tarjetas de la grilla "Resumen" miden igual
+
+# Etiquetas de esquina "d/dx" y "d²/dx²": iguales siempre, se renderizan una
+# sola vez al importar el módulo (logica.formula ya las cachea igual).
+_IMG_DDX = renderizar_formula(r"\frac{d}{dx}", color=tema.TEXTO_SUAVE, fontsize=15)
+_IMG_D2DX2 = renderizar_formula(r"\frac{d^2}{dx^2}", color=tema.TEXTO_SUAVE, fontsize=15)
+
+
+def _imagen_formula(b64, height=30):
+    return ft.Image(src=b64, height=height, fit=ft.BoxFit.CONTAIN)
 
 
 def build_pnl_view(page: ft.Page):
@@ -71,18 +81,19 @@ def build_pnl_view(page: ft.Page):
                 controls=[
                     ft.Row(
                         controls=[
-                            icono(iconos.CLASIFICACION, size=16, color=color_condicion),
+                            insignia_circular(iconos.CLASIFICACION, color_condicion, size=32),
                             ft.Text(
                                 f"En x = {punto.x_str}: f''(x) {punto.condicion}",
                                 size=13,
                                 color=tema.TEXTO_SUAVE,
                             ),
                         ],
-                        spacing=6,
+                        spacing=10,
                     ),
                     ft.Container(height=8),
                     insignia(f"Función {punto.clasificacion}", color_condicion),
                 ],
+                spacing=4,
             ),
             bgcolor=tema.TARJETA_VERDE,
             col=COL_MITAD,
@@ -102,16 +113,16 @@ def build_pnl_view(page: ft.Page):
         else:
             cuerpo = ft.Row(
                 controls=[
-                    icono(iconos.RESULTADO, size=22, color=tema.VERDE),
+                    insignia_circular(iconos.RESULTADO, tema.VERDE, size=40),
                     ft.Column(
                         controls=[
                             ft.Text(f"{punto.tipo.upper()} LOCAL", size=13, weight=ft.FontWeight.BOLD, color=tema.TEXTO),
-                            _texto_monoespaciado(f"Punto: ({punto.x_str}, {punto.y_str})", size=13, color=tema.TEXTO_SUAVE),
+                            _imagen_formula(punto.punto_img, height=22),
                         ],
-                        spacing=2,
+                        spacing=4,
                     ),
                 ],
-                spacing=10,
+                spacing=12,
             )
         return tarjeta_resultado(
             f"{prefijo}RESULTADO{sufijo}", cuerpo,
@@ -123,36 +134,41 @@ def build_pnl_view(page: ft.Page):
         tarjetas = [
             tarjeta_resultado(
                 f"{next(n)}. FUNCIÓN",
-                _texto_monoespaciado(resultado.funcion_str),
+                _imagen_formula(resultado.funcion_img),
                 bgcolor=tema.TARJETA_MORADA,
                 col=COL_MITAD,
                 height=ALTURA_TARJETA_RESUMEN,
+                esquina=icono(iconos.LOGO, size=22, color=tema.PRIMARIO),
             ),
             tarjeta_resultado(
                 f"{next(n)}. PRIMERA DERIVADA",
-                _texto_monoespaciado(resultado.primera_derivada_str),
+                _imagen_formula(resultado.primera_derivada_img),
                 bgcolor=tema.TARJETA_MORADA,
                 col=COL_MITAD,
                 height=ALTURA_TARJETA_RESUMEN,
+                esquina=_imagen_formula(_IMG_DDX, height=26),
             ),
             tarjeta_resultado(
                 f"{next(n)}. SEGUNDA DERIVADA",
-                _texto_monoespaciado(resultado.segunda_derivada_str),
+                _imagen_formula(resultado.segunda_derivada_img),
                 bgcolor=tema.TARJETA_AMBAR,
                 col=COL_MITAD,
                 height=ALTURA_TARJETA_RESUMEN,
+                esquina=_imagen_formula(_IMG_D2DX2, height=26),
             ),
             tarjeta_resultado(
                 f"{next(n)}. VALORES CRÍTICOS",
                 ft.Column(
                     controls=[
-                        _texto_monoespaciado(resultado.ecuacion_critica_str, size=14),
-                        ft.Container(height=8),
-                        *([_texto_monoespaciado(v, size=14, color=tema.TEXTO_SUAVE) for v in resultado.valores_criticos_str]
+                        ft.Text("Igualando la primera derivada a cero:", size=12, color=tema.TEXTO_SUAVE),
+                        _imagen_formula(resultado.ecuacion_critica_img, height=26),
+                        ft.Container(height=6),
+                        *([_imagen_formula(p.valor_critico_img, height=24) for p in resultado.puntos]
                           or [ft.Text("No se encontraron valores críticos reales.", size=13, color=tema.TEXTO_SUAVE)]),
                         ft.Container(height=8),
                         insignia(f"{len(resultado.puntos)} punto(s) crítico(s) encontrado(s)", tema.ACENTO),
                     ],
+                    spacing=4,
                 ),
                 bgcolor=tema.TARJETA_AMBAR,
                 col=COL_MITAD,
@@ -167,20 +183,26 @@ def build_pnl_view(page: ft.Page):
         return _pagina_pestania([ft.ResponsiveRow(controls=tarjetas, run_spacing=16, spacing=16)])
 
     def _pestania_procedimiento(resultado):
-        pasos = [
-            ("Paso 1 — Derivar la función", resultado.primera_derivada_str),
-            ("Paso 2 — Igualar la primera derivada a cero",
-             f"{resultado.ecuacion_critica_str}   →   "
-             + (", ".join(resultado.valores_criticos_str) if resultado.valores_criticos_str
-                else "sin valores críticos reales")),
-            ("Paso 3 — Calcular la segunda derivada", resultado.segunda_derivada_str),
+        bloques = [
+            ft.Text("Paso 1 — Derivar la función", size=13, weight=ft.FontWeight.BOLD, color=tema.ACENTO),
+            _imagen_formula(resultado.primera_derivada_img),
+            ft.Container(height=4),
+            ft.Text("Paso 2 — Igualar la primera derivada a cero", size=13, weight=ft.FontWeight.BOLD, color=tema.ACENTO),
+            ft.Row(
+                controls=[
+                    _imagen_formula(resultado.ecuacion_critica_img, height=24),
+                    ft.Text("→", size=16, color=tema.TEXTO_SUAVE),
+                    *([_imagen_formula(p.valor_critico_img, height=22) for p in resultado.puntos]
+                      or [ft.Text("sin valores críticos reales", size=14, color=tema.TEXTO_SUAVE)]),
+                ],
+                spacing=10,
+                wrap=True,
+            ),
+            ft.Container(height=4),
+            ft.Text("Paso 3 — Calcular la segunda derivada", size=13, weight=ft.FontWeight.BOLD, color=tema.ACENTO),
+            _imagen_formula(resultado.segunda_derivada_img),
+            ft.Container(height=4),
         ]
-
-        bloques = []
-        for titulo, texto in pasos:
-            bloques.append(ft.Text(titulo, size=13, weight=ft.FontWeight.BOLD, color=tema.ACENTO))
-            bloques.append(_texto_monoespaciado(texto, size=14))
-            bloques.append(ft.Container(height=4))
 
         bloques.append(
             ft.Text("Paso 4 — Evaluar la segunda derivada en cada punto crítico",
@@ -192,12 +214,15 @@ def build_pnl_view(page: ft.Page):
             if punto.tipo == "Indeterminado":
                 explicacion = "la prueba no es concluyente (posible punto de inflexión)."
             else:
-                explicacion = f"la función es {punto.clasificacion} → {punto.tipo.lower()} local en ({punto.x_str}, {punto.y_str})."
+                explicacion = f"la función es {punto.clasificacion} → {punto.tipo.lower()} local."
             bloques.append(
-                _texto_monoespaciado(
-                    f"En x = {punto.x_str}: f''(x) {punto.condicion}  →  {explicacion}",
-                    size=14,
-                    color=tema.TEXTO_SUAVE,
+                ft.Row(
+                    controls=[
+                        _imagen_formula(punto.valor_critico_img, height=20),
+                        ft.Text(f": f''(x) {punto.condicion}  →  {explicacion}", size=14, color=tema.TEXTO_SUAVE),
+                    ],
+                    spacing=8,
+                    wrap=True,
                 )
             )
 

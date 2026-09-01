@@ -19,8 +19,12 @@ def build_informacion_view():
     integrantes = ft.Column(
         controls=[
             ft.Row(
-                [icono(iconos.PERSONA, size=16, color=tema.ACENTO), ft.Text(nombre, size=14, color=tema.TEXTO)],
+                [
+                    icono(iconos.PERSONA, size=16, color=tema.ACENTO),
+                    ft.Text(nombre, size=14, color=tema.TEXTO, expand=True),
+                ],
                 spacing=8,
+                vertical_alignment=ft.CrossAxisAlignment.START,
             )
             for nombre in datos_proyecto.INTEGRANTES
         ],
@@ -36,7 +40,7 @@ def build_informacion_view():
             controls=[
                 ft.Row(
                     [
-                        ft.Image(src=datos_proyecto.LOGO, width=64, height=64, fit=ft.BoxFit.CONTAIN),
+                        ft.Image(src=datos_proyecto.LOGO, width=80, height=80, fit=ft.BoxFit.CONTAIN),
                         ft.Column(
                             [
                                 ft.Text(datos_proyecto.UNIVERSIDAD, size=15, weight=ft.FontWeight.BOLD, color=tema.TEXTO),

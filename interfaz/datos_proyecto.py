@@ -4,9 +4,14 @@
 
 UNIVERSIDAD = "Universidad Nacional Mayor de San Marcos"
 LOGO = "UNMSM_Escudo.png"  # archivo dentro de recursos/
-FACULTAD = "(Pendiente: facultad)"
+FACULTAD = "Facultad de Ciencias Matemáticas"
 CURSO = "Programación No Lineal y Dinámica"
 DOCENTE = "(Pendiente: docente)"
 ANIO = "2026"
 
-INTEGRANTES = ["Isabel", "Milagros", "Hugo"]
+INTEGRANTES = [
+    "Milagros Cornejo Palomino",
+    "Amber Carlos Valle",
+    "Isabel Flores Huamaní",
+    "Hugo Gallardo Huayoli",
+]

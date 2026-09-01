@@ -39,8 +39,12 @@ def _tarjeta_proyecto():
     integrantes = ft.Column(
         controls=[
             ft.Row(
-                [icono(iconos.PERSONA, size=14, color=tema.PRIMARIO), ft.Text(nombre, size=13, color=tema.SIDEBAR_TEXTO)],
+                [
+                    icono(iconos.PERSONA, size=14, color=tema.PRIMARIO),
+                    ft.Text(nombre, size=13, color=tema.SIDEBAR_TEXTO, expand=True),
+                ],
                 spacing=6,
+                vertical_alignment=ft.CrossAxisAlignment.START,
             )
             for nombre in datos_proyecto.INTEGRANTES
         ],
@@ -55,12 +59,10 @@ def _tarjeta_proyecto():
         content=ft.Column(
             controls=[
                 ft.Row(
-                    [ft.Image(src=datos_proyecto.LOGO, width=32, height=32, fit=ft.BoxFit.CONTAIN)],
+                    [ft.Image(src=datos_proyecto.LOGO, width=72, height=72, fit=ft.BoxFit.CONTAIN)],
                     alignment=ft.MainAxisAlignment.CENTER,
                 ),
-                ft.Container(height=8),
-                ft.Text("PROYECTO ACADÉMICO", size=11, weight=ft.FontWeight.BOLD, color=tema.SIDEBAR_TEXTO_SUAVE),
-                ft.Container(height=4),
+                ft.Container(height=12),
                 ft.Text(f"Curso: {datos_proyecto.CURSO}", size=12, color=tema.SIDEBAR_TEXTO_SUAVE),
                 ft.Text(f"Docente: {datos_proyecto.DOCENTE}", size=12, color=tema.SIDEBAR_TEXTO_SUAVE),
                 ft.Container(height=8),

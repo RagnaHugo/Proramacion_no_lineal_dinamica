@@ -5,15 +5,15 @@ import libreria_grafica_hugo as ft
 from . import datos_proyecto, iconos, tema
 from .componentes import icono
 
-ANCHO = 240
+ANCHO = 270
 
 
 def _item_nav(nombre_icono, texto, on_click, activo=False, deshabilitado=False, etiqueta=None):
     controles = [
-        icono(nombre_icono, size=18, color=tema.SIDEBAR_TEXTO if activo else tema.SIDEBAR_TEXTO_SUAVE),
+        icono(nombre_icono, size=22, color=tema.SIDEBAR_TEXTO if activo else tema.SIDEBAR_TEXTO_SUAVE),
         ft.Text(
             texto,
-            size=14,
+            size=17,
             weight=ft.FontWeight.BOLD if activo else ft.FontWeight.NORMAL,
             color=tema.SIDEBAR_TEXTO if activo else tema.SIDEBAR_TEXTO_SUAVE,
         ),
@@ -21,14 +21,14 @@ def _item_nav(nombre_icono, texto, on_click, activo=False, deshabilitado=False, 
     if etiqueta:
         controles.append(ft.Container(expand=True))
         controles.append(
-            ft.Text(etiqueta, size=10, color=tema.SIDEBAR_TEXTO_SUAVE, italic=True)
+            ft.Text(etiqueta, size=11, color=tema.SIDEBAR_TEXTO_SUAVE, italic=True)
         )
 
     return ft.Container(
-        content=ft.Row(controles, spacing=10),
+        content=ft.Row(controles, spacing=12),
         bgcolor=tema.PRIMARIO if activo else None,
         border_radius=0,  # es un botón de navegación: esquinas rectas
-        padding=ft.Padding.symmetric(vertical=10, horizontal=12),
+        padding=ft.Padding.symmetric(vertical=12, horizontal=14),
         ink=not deshabilitado,
         opacity=0.5 if deshabilitado else 1.0,
         on_click=None if deshabilitado else on_click,
@@ -40,15 +40,15 @@ def _tarjeta_proyecto():
         controls=[
             ft.Row(
                 [
-                    icono(iconos.PERSONA, size=14, color=tema.PRIMARIO),
-                    ft.Text(nombre, size=13, color=tema.SIDEBAR_TEXTO, expand=True),
+                    icono(iconos.PERSONA, size=16, color=tema.PRIMARIO),
+                    ft.Text(nombre, size=15, color=tema.SIDEBAR_TEXTO, expand=True),
                 ],
                 spacing=6,
                 vertical_alignment=ft.CrossAxisAlignment.START,
             )
             for nombre in datos_proyecto.INTEGRANTES
         ],
-        spacing=6,
+        spacing=8,
     )
 
     return ft.Container(
@@ -63,15 +63,15 @@ def _tarjeta_proyecto():
                     alignment=ft.MainAxisAlignment.CENTER,
                 ),
                 ft.Container(height=12),
-                ft.Text(f"Curso: {datos_proyecto.CURSO}", size=12, color=tema.SIDEBAR_TEXTO_SUAVE),
-                ft.Text(f"Docente: {datos_proyecto.DOCENTE}", size=12, color=tema.SIDEBAR_TEXTO_SUAVE),
-                ft.Container(height=8),
-                ft.Text("INTEGRANTES", size=11, weight=ft.FontWeight.BOLD, color=tema.SIDEBAR_TEXTO_SUAVE),
+                ft.Text(f"Curso: {datos_proyecto.CURSO}", size=14, color=tema.SIDEBAR_TEXTO_SUAVE),
+                ft.Text(f"Docente: {datos_proyecto.DOCENTE}", size=14, color=tema.SIDEBAR_TEXTO_SUAVE),
+                ft.Container(height=10),
+                ft.Text("INTEGRANTES", size=13, weight=ft.FontWeight.BOLD, color=tema.SIDEBAR_TEXTO_SUAVE),
                 integrantes,
-                ft.Container(height=8),
-                ft.Text(f"Año: {datos_proyecto.ANIO}", size=11, color=tema.SIDEBAR_TEXTO_SUAVE),
+                ft.Container(height=10),
+                ft.Text(f"Año: {datos_proyecto.ANIO}", size=13, color=tema.SIDEBAR_TEXTO_SUAVE),
             ],
-            spacing=4,
+            spacing=6,
         ),
     )
 
@@ -79,16 +79,16 @@ def _tarjeta_proyecto():
 def build_sidebar(activo, on_inicio, on_pnl, on_informacion):
     logo = ft.Row(
         controls=[
-            icono(iconos.LOGO, size=28, color=tema.PRIMARIO),
+            icono(iconos.LOGO, size=34, color=tema.PRIMARIO),
             ft.Column(
                 controls=[
-                    ft.Text("PNL", size=18, weight=ft.FontWeight.BOLD, color=tema.SIDEBAR_TEXTO),
-                    ft.Text("y Dinámica", size=11, color=tema.SIDEBAR_TEXTO_SUAVE),
+                    ft.Text("PNL", size=21, weight=ft.FontWeight.BOLD, color=tema.SIDEBAR_TEXTO),
+                    ft.Text("y Dinámica", size=13, color=tema.SIDEBAR_TEXTO_SUAVE),
                 ],
                 spacing=0,
             ),
         ],
-        spacing=10,
+        spacing=12,
     )
 
     navegacion = ft.Column(

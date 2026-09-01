@@ -6,7 +6,7 @@ UNIVERSIDAD = "Universidad Nacional Mayor de San Marcos"
 LOGO = "UNMSM_Escudo.png"  # archivo dentro de recursos/
 FACULTAD = "Facultad de Ciencias Matemáticas"
 CURSO = "Programación No Lineal y Dinámica"
-DOCENTE = "(Pendiente: docente)"
+DOCENTE = "Juan Julio Toledo Rodríguez"
 ANIO = "2026"
 
 INTEGRANTES = [

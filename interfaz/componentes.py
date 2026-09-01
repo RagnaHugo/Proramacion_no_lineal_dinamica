@@ -82,28 +82,36 @@ def insignia(texto, color):
     )
 
 
-def tarjeta_resultado(titulo, contenido, bgcolor=None, col=None):
+def tarjeta_resultado(titulo, contenido, bgcolor=None, col=None, height=None):
     """Tarjeta responsiva para un paso del análisis (función, derivada, etc.).
 
     Pensada para vivir dentro de un ft.ResponsiveRow: `col` define cuánto
     ancho ocupa por breakpoint, así las tarjetas se reacomodan solas en vez
     de solaparse cuando la ventana es angosta.
+
+    `height`, si se da, fija el alto (ej. para que todas las tarjetas de
+    una grilla se vean del mismo tamaño); el contenido gana scroll propio
+    por si en algún caso no entra.
     """
-    return ft.Container(
-        col=col or {"xs": 12, "md": 6},
-        bgcolor=bgcolor or tema.TARJETA,
-        border=ft.Border.all(1, tema.BORDE),
-        border_radius=12,
-        padding=ft.Padding.all(16),
-        content=ft.Column(
+    columna = ft.Column(
             controls=[
                 ft.Text(titulo, size=12, weight=ft.FontWeight.BOLD, color=tema.TEXTO_SUAVE),
                 ft.Container(height=6),
                 contenido,
             ],
             spacing=0,
-            tight=True,
-        ),
+            tight=height is None,
+            scroll=ft.ScrollMode.AUTO if height else None,
+            expand=True if height else None,
+    )
+    return ft.Container(
+        col=col or {"xs": 12, "md": 6},
+        bgcolor=bgcolor or tema.TARJETA,
+        border=ft.Border.all(1, tema.BORDE),
+        border_radius=12,
+        padding=ft.Padding.all(16),
+        height=height,
+        content=columna,
     )
 
 

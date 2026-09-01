@@ -18,6 +18,7 @@ from .componentes import icono, insignia, tarjeta_resultado
 COL_MITAD = {"xs": 12, "md": 6}
 COL_COMPLETA = {"xs": 12}
 ALTURA_TABS = 560
+ALTURA_TARJETA_RESUMEN = 180  # todas las tarjetas de la grilla "Resumen" miden igual
 
 
 def build_pnl_view(page: ft.Page):
@@ -85,6 +86,7 @@ def build_pnl_view(page: ft.Page):
             ),
             bgcolor=tema.TARJETA_VERDE,
             col=COL_MITAD,
+            height=ALTURA_TARJETA_RESUMEN,
         )
 
     def _tarjeta_punto(punto, indice, total, numero=None):
@@ -111,7 +113,10 @@ def build_pnl_view(page: ft.Page):
                 ],
                 spacing=10,
             )
-        return tarjeta_resultado(f"{prefijo}RESULTADO{sufijo}", cuerpo, bgcolor=tema.TARJETA_VERDE, col=COL_MITAD)
+        return tarjeta_resultado(
+            f"{prefijo}RESULTADO{sufijo}", cuerpo,
+            bgcolor=tema.TARJETA_VERDE, col=COL_MITAD, height=ALTURA_TARJETA_RESUMEN,
+        )
 
     def _pestania_resumen(resultado):
         n = itertools.count(1)
@@ -121,18 +126,21 @@ def build_pnl_view(page: ft.Page):
                 _texto_monoespaciado(resultado.funcion_str),
                 bgcolor=tema.TARJETA_MORADA,
                 col=COL_MITAD,
+                height=ALTURA_TARJETA_RESUMEN,
             ),
             tarjeta_resultado(
                 f"{next(n)}. PRIMERA DERIVADA",
                 _texto_monoespaciado(resultado.primera_derivada_str),
                 bgcolor=tema.TARJETA_MORADA,
                 col=COL_MITAD,
+                height=ALTURA_TARJETA_RESUMEN,
             ),
             tarjeta_resultado(
                 f"{next(n)}. SEGUNDA DERIVADA",
                 _texto_monoespaciado(resultado.segunda_derivada_str),
                 bgcolor=tema.TARJETA_AMBAR,
                 col=COL_MITAD,
+                height=ALTURA_TARJETA_RESUMEN,
             ),
             tarjeta_resultado(
                 f"{next(n)}. VALORES CRÍTICOS",
@@ -148,6 +156,7 @@ def build_pnl_view(page: ft.Page):
                 ),
                 bgcolor=tema.TARJETA_AMBAR,
                 col=COL_MITAD,
+                height=ALTURA_TARJETA_RESUMEN,
             ),
         ]
         total = len(resultado.puntos)

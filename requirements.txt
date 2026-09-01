@@ -1,0 +1,4 @@
+flet==0.86.5
+matplotlib==3.11.1
+numpy==2.5.2
+sympy==1.14.0

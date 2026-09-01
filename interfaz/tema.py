@@ -36,3 +36,8 @@ EJES = "#94A3B8"
 TARJETA_MORADA = "#EEF2FF"
 TARJETA_AMBAR = "#FFFBEB"
 TARJETA_VERDE = "#F0FDF4"
+
+# --- Tipografía y medidas ---
+# Fuente descargada en recursos/fuentes/ y registrada en main.py.
+FUENTE = "Inter"
+ALTURA_CONTROL = 52  # alto de botones/campos principales (ej. "Resolver función")

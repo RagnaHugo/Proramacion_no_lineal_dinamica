@@ -7,6 +7,22 @@ from . import tema
 BORDE_RECTO = ft.RoundedRectangleBorder(radius=0)
 
 
+def icono(nombre, size=18, color=None):
+    """Icono SVG (recursos/iconos/<nombre>.svg, ver interfaz/iconos.py).
+
+    El archivo se pinta con `color` vía color_blend_mode (SRC_IN), así el
+    mismo .svg sirve para cualquier color sin tener que duplicar archivos.
+    """
+    return ft.Image(
+        src=f"iconos/{nombre}.svg",
+        width=size,
+        height=size,
+        color=color or tema.TEXTO_SUAVE,
+        color_blend_mode=ft.BlendMode.SRC_IN,
+        fit=ft.BoxFit.CONTAIN,
+    )
+
+
 def tarjeta_modulo(titulo, subtitulo, on_click, activa=False, deshabilitada=False, etiqueta=None):
     """Tarjeta clicable (botón grande) usada en Inicio para entrar a un módulo.
 

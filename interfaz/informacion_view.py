@@ -2,7 +2,8 @@
 
 import libreria_grafica_hugo as ft
 
-from . import datos_proyecto, tema
+from . import datos_proyecto, iconos, tema
+from .componentes import icono
 
 
 def _fila(etiqueta, valor):
@@ -18,7 +19,7 @@ def build_informacion_view():
     integrantes = ft.Column(
         controls=[
             ft.Row(
-                [ft.Icon(ft.Icons.PERSON, size=16, color=tema.ACENTO), ft.Text(nombre, size=14, color=tema.TEXTO)],
+                [icono(iconos.PERSONA, size=16, color=tema.ACENTO), ft.Text(nombre, size=14, color=tema.TEXTO)],
                 spacing=8,
             )
             for nombre in datos_proyecto.INTEGRANTES

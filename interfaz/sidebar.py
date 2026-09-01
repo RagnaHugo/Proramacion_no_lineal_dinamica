@@ -2,15 +2,15 @@
 
 import libreria_grafica_hugo as ft
 
-from . import datos_proyecto, tema
-from .componentes import insignia
+from . import datos_proyecto, iconos, tema
+from .componentes import icono
 
 ANCHO = 240
 
 
-def _item_nav(icono, texto, on_click, activo=False, deshabilitado=False, etiqueta=None):
+def _item_nav(nombre_icono, texto, on_click, activo=False, deshabilitado=False, etiqueta=None):
     controles = [
-        ft.Icon(icono, size=18, color=tema.SIDEBAR_TEXTO if activo else tema.SIDEBAR_TEXTO_SUAVE),
+        icono(nombre_icono, size=18, color=tema.SIDEBAR_TEXTO if activo else tema.SIDEBAR_TEXTO_SUAVE),
         ft.Text(
             texto,
             size=14,
@@ -39,7 +39,7 @@ def _tarjeta_proyecto():
     integrantes = ft.Column(
         controls=[
             ft.Row(
-                [ft.Icon(ft.Icons.PERSON, size=14, color=tema.PRIMARIO), ft.Text(nombre, size=13, color=tema.SIDEBAR_TEXTO)],
+                [icono(iconos.PERSONA, size=14, color=tema.PRIMARIO), ft.Text(nombre, size=13, color=tema.SIDEBAR_TEXTO)],
                 spacing=6,
             )
             for nombre in datos_proyecto.INTEGRANTES
@@ -77,7 +77,7 @@ def _tarjeta_proyecto():
 def build_sidebar(activo, on_inicio, on_pnl, on_informacion):
     logo = ft.Row(
         controls=[
-            ft.Icon(ft.Icons.SHOW_CHART_ROUNDED, size=28, color=tema.PRIMARIO),
+            icono(iconos.LOGO, size=28, color=tema.PRIMARIO),
             ft.Column(
                 controls=[
                     ft.Text("PNL", size=18, weight=ft.FontWeight.BOLD, color=tema.SIDEBAR_TEXTO),
@@ -91,10 +91,10 @@ def build_sidebar(activo, on_inicio, on_pnl, on_informacion):
 
     navegacion = ft.Column(
         controls=[
-            _item_nav(ft.Icons.HOME_ROUNDED, "Inicio", on_inicio, activo=activo == "inicio"),
-            _item_nav(ft.Icons.FUNCTIONS_ROUNDED, "f(x)  PNL", on_pnl, activo=activo == "pnl"),
-            _item_nav(ft.Icons.ACCOUNT_TREE_ROUNDED, "Dinámica", None, deshabilitado=True, etiqueta="Próximamente"),
-            _item_nav(ft.Icons.INFO_ROUNDED, "Información", on_informacion, activo=activo == "informacion"),
+            _item_nav(iconos.INICIO, "Inicio", on_inicio, activo=activo == "inicio"),
+            _item_nav(iconos.PNL, "f(x)  PNL", on_pnl, activo=activo == "pnl"),
+            _item_nav(iconos.DINAMICA, "Dinámica", None, deshabilitado=True, etiqueta="Próximamente"),
+            _item_nav(iconos.INFORMACION, "Información", on_informacion, activo=activo == "informacion"),
         ],
         spacing=4,
     )

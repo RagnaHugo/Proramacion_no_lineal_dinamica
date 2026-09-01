@@ -1,17 +1,20 @@
 """Vista: Módulo PNL — ingresar función, resolver y ver el análisis paso a paso.
 
 Todo el análisis (función, derivadas, valores críticos, clasificación,
-resultado y gráfica) se muestra junto, en un único ft.ResponsiveRow: cada
-tarjeta declara cuánto ancho ocupa por breakpoint (`col`), así se
-reacomodan solas en vez de solaparse cuando la ventana es angosta.
+resultado y gráfica) se muestra junto y numerado, en un único
+ft.ResponsiveRow: cada tarjeta declara cuánto ancho ocupa por breakpoint
+(`col`), así se reacomodan solas en vez de solaparse cuando la ventana es
+angosta.
 """
+
+import itertools
 
 import libreria_grafica_hugo as ft
 
 from logica.pnl import resolver_pnl
 
-from . import tema
-from .componentes import insignia, tarjeta_resultado
+from . import iconos, tema
+from .componentes import icono, insignia, tarjeta_resultado
 
 COL_MITAD = {"xs": 12, "md": 6}
 COL_COMPLETA = {"xs": 12}
@@ -24,6 +27,7 @@ def build_pnl_view(page: ft.Page):
         border_color=tema.BORDE,
         color=tema.TEXTO,
         border_radius=10,
+        height=tema.ALTURA_CONTROL,
         content_padding=ft.Padding.symmetric(vertical=10, horizontal=14),
         expand=True,
     )
@@ -48,19 +52,25 @@ def build_pnl_view(page: ft.Page):
     def _texto_monoespaciado(valor, size=16, color=None):
         return ft.Text(valor, size=size, color=color or tema.TEXTO, selectable=True, font_family="Consolas")
 
-    def _tarjeta_clasificacion(punto, indice, total):
+    def _tarjeta_clasificacion(numero, punto, indice, total):
         sufijo = f" (punto {indice})" if total > 1 else ""
         color_condicion = tema.VERDE if punto.tipo == "Mínimo" else (
             tema.ERROR if punto.tipo == "Máximo" else tema.TEXTO_SUAVE
         )
         return tarjeta_resultado(
-            f"CLASIFICACIÓN{sufijo}",
+            f"{numero}. CLASIFICACIÓN{sufijo}",
             ft.Column(
                 controls=[
-                    ft.Text(
-                        f"En x = {punto.x_str}: f''(x) {punto.condicion}",
-                        size=13,
-                        color=tema.TEXTO_SUAVE,
+                    ft.Row(
+                        controls=[
+                            icono(iconos.CLASIFICACION, size=16, color=color_condicion),
+                            ft.Text(
+                                f"En x = {punto.x_str}: f''(x) {punto.condicion}",
+                                size=13,
+                                color=tema.TEXTO_SUAVE,
+                            ),
+                        ],
+                        spacing=6,
                     ),
                     ft.Container(height=8),
                     insignia(f"Función {punto.clasificacion}", color_condicion),
@@ -70,7 +80,7 @@ def build_pnl_view(page: ft.Page):
             col=COL_MITAD,
         )
 
-    def _tarjeta_punto(punto, indice, total):
+    def _tarjeta_punto(numero, punto, indice, total):
         sufijo = f" (punto {indice})" if total > 1 else ""
         if punto.tipo == "Indeterminado":
             cuerpo = ft.Text(
@@ -80,10 +90,9 @@ def build_pnl_view(page: ft.Page):
                 color=tema.TEXTO_SUAVE,
             )
         else:
-            icono = ft.Icons.TRENDING_DOWN if punto.tipo == "Mínimo" else ft.Icons.TRENDING_UP
             cuerpo = ft.Row(
                 controls=[
-                    ft.Icon(icono, color=tema.VERDE, size=22),
+                    icono(iconos.RESULTADO, size=22, color=tema.VERDE),
                     ft.Column(
                         controls=[
                             ft.Text(f"{punto.tipo.upper()} LOCAL", size=13, weight=ft.FontWeight.BOLD, color=tema.TEXTO),
@@ -94,30 +103,32 @@ def build_pnl_view(page: ft.Page):
                 ],
                 spacing=10,
             )
-        return tarjeta_resultado(f"RESULTADO{sufijo}", cuerpo, bgcolor=tema.TARJETA_VERDE, col=COL_MITAD)
+        return tarjeta_resultado(f"{numero}. RESULTADO{sufijo}", cuerpo, bgcolor=tema.TARJETA_VERDE, col=COL_MITAD)
 
     def _construir_tarjetas(resultado):
+        n = itertools.count(1)
+
         tarjetas = [
             tarjeta_resultado(
-                "FUNCIÓN",
+                f"{next(n)}. FUNCIÓN",
                 _texto_monoespaciado(resultado.funcion_str),
                 bgcolor=tema.TARJETA_MORADA,
                 col=COL_MITAD,
             ),
             tarjeta_resultado(
-                "PRIMERA DERIVADA",
+                f"{next(n)}. PRIMERA DERIVADA",
                 _texto_monoespaciado(resultado.primera_derivada_str),
                 bgcolor=tema.TARJETA_MORADA,
                 col=COL_MITAD,
             ),
             tarjeta_resultado(
-                "SEGUNDA DERIVADA",
+                f"{next(n)}. SEGUNDA DERIVADA",
                 _texto_monoespaciado(resultado.segunda_derivada_str),
                 bgcolor=tema.TARJETA_AMBAR,
                 col=COL_MITAD,
             ),
             tarjeta_resultado(
-                "VALORES CRÍTICOS",
+                f"{next(n)}. VALORES CRÍTICOS",
                 ft.Column(
                     controls=[
                         _texto_monoespaciado(resultado.ecuacion_critica_str, size=14),
@@ -135,12 +146,12 @@ def build_pnl_view(page: ft.Page):
 
         total = len(resultado.puntos)
         for i, punto in enumerate(resultado.puntos, start=1):
-            tarjetas.append(_tarjeta_clasificacion(punto, i, total))
-            tarjetas.append(_tarjeta_punto(punto, i, total))
+            tarjetas.append(_tarjeta_clasificacion(next(n), punto, i, total))
+            tarjetas.append(_tarjeta_punto(next(n), punto, i, total))
 
         tarjetas.append(
             tarjeta_resultado(
-                "GRÁFICA",
+                f"{next(n)}. GRÁFICA",
                 ft.Container(
                     content=ft.Image(src=resultado.imagen_b64, fit=ft.BoxFit.CONTAIN),
                     alignment=ft.Alignment(0, 0),
@@ -177,19 +188,21 @@ def build_pnl_view(page: ft.Page):
 
     boton_resolver = ft.Button(
         content=ft.Row(
-            [ft.Icon(ft.Icons.PLAY_ARROW_ROUNDED, size=16), ft.Text("Resolver función")],
+            [icono(iconos.RESOLVER, size=16, color=tema.TEXTO_INVERSO), ft.Text("Resolver función")],
             spacing=6,
             tight=True,
+            alignment=ft.MainAxisAlignment.CENTER,
         ),
         bgcolor=tema.PRIMARIO,
         color=tema.TEXTO_INVERSO,
+        height=tema.ALTURA_CONTROL,
         style=estilo_boton_recto,
         on_click=on_resolver,
     )
 
     boton_limpiar = ft.TextButton(
         content=ft.Row(
-            [ft.Icon(ft.Icons.CLEANING_SERVICES_OUTLINED, size=15), ft.Text("Limpiar")],
+            [icono(iconos.LIMPIAR, size=15, color=tema.TEXTO_SUAVE), ft.Text("Limpiar")],
             spacing=6,
             tight=True,
         ),
@@ -218,6 +231,7 @@ def build_pnl_view(page: ft.Page):
                     ],
                     spacing=10,
                     run_spacing=10,
+                    vertical_alignment=ft.CrossAxisAlignment.START,
                 ),
                 mensaje_error,
                 ft.Text(

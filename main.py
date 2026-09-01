@@ -9,6 +9,8 @@ def main(page: ft.Page):
     page.theme_mode = ft.ThemeMode.LIGHT
     page.padding = 0
     page.bgcolor = tema.FONDO
+    page.fonts = {tema.FUENTE: "fuentes/Inter.ttf"}
+    page.theme = ft.Theme(font_family=tema.FUENTE)
     page.add(build_shell(page))
 
 

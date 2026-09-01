@@ -18,4 +18,15 @@ ACENTO_MORADO = "#7C3AED"
 ACENTO_AZUL = "#3B82F6"
 PRIMARIO = "#2563EB"
 ERROR = "#EF4444"
+VERDE = "#22C55E"
+AMBAR = "#F59E0B"
 EJES = "#3B4A6B"
+
+# Variantes de tarjeta con un leve tinte de color, para diferenciar
+# tipos de resultado (función/derivadas vs. clasificación/resultado)
+# manteniendo el tema oscuro general.
+TARJETA_MORADA = "#1B1533"
+TARJETA_AMBAR = "#241B0D"
+TARJETA_VERDE = "#0F2419"
+
+SIDEBAR = "#0B0F1C"

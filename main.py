@@ -1,6 +1,6 @@
 import flet as ft
 
-from interfaz.dashboard import build_dashboard
+from interfaz.shell import build_shell
 
 
 def main(page: ft.Page):
@@ -8,7 +8,7 @@ def main(page: ft.Page):
     page.theme_mode = ft.ThemeMode.DARK
     page.padding = 0
     page.bgcolor = "#090C15"
-    page.add(build_dashboard(page))
+    page.add(build_shell(page))
 
 
 if __name__ == "__main__":

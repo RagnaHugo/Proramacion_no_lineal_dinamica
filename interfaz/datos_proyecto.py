@@ -2,9 +2,10 @@
 "Información". Editar aquí — es el único lugar donde deberían escribirse.
 """
 
-UNIVERSIDAD = "(Pendiente: nombre de la universidad)"
+UNIVERSIDAD = "Universidad Nacional Mayor de San Marcos"
+LOGO = "UNMSM_Escudo.png"  # archivo dentro de recursos/
 FACULTAD = "(Pendiente: facultad)"
-CURSO = "(Pendiente: curso)"
+CURSO = "Programación No Lineal y Dinámica"
 DOCENTE = "(Pendiente: docente)"
 ANIO = "2026"
 

@@ -33,8 +33,20 @@ def build_informacion_view():
         padding=ft.Padding.all(24),
         content=ft.Column(
             controls=[
-                _fila("Universidad:", datos_proyecto.UNIVERSIDAD),
-                _fila("Facultad:", datos_proyecto.FACULTAD),
+                ft.Row(
+                    [
+                        ft.Image(src=datos_proyecto.LOGO, width=64, height=64, fit=ft.BoxFit.CONTAIN),
+                        ft.Column(
+                            [
+                                ft.Text(datos_proyecto.UNIVERSIDAD, size=15, weight=ft.FontWeight.BOLD, color=tema.TEXTO),
+                                ft.Text(datos_proyecto.FACULTAD, size=12, color=tema.TEXTO_SUAVE),
+                            ],
+                            spacing=2,
+                        ),
+                    ],
+                    spacing=16,
+                ),
+                ft.Container(height=8),
                 _fila("Curso:", datos_proyecto.CURSO),
                 _fila("Docente:", datos_proyecto.DOCENTE),
                 _fila("Año:", datos_proyecto.ANIO),

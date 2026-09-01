@@ -54,6 +54,11 @@ def _tarjeta_proyecto():
         padding=ft.Padding.all(16),
         content=ft.Column(
             controls=[
+                ft.Row(
+                    [ft.Image(src=datos_proyecto.LOGO, width=32, height=32, fit=ft.BoxFit.CONTAIN)],
+                    alignment=ft.MainAxisAlignment.CENTER,
+                ),
+                ft.Container(height=8),
                 ft.Text("PROYECTO ACADÉMICO", size=11, weight=ft.FontWeight.BOLD, color=tema.TEXTO_SUAVE),
                 ft.Container(height=4),
                 ft.Text(f"Curso: {datos_proyecto.CURSO}", size=12, color=tema.TEXTO_SUAVE),

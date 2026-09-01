@@ -1,8 +1,7 @@
 """Paleta de colores compartida por toda la interfaz.
 
-Tomada de la imagen de referencia (interfaz/image.png): barra lateral
-oscura + contenido claro, con tarjetas de resultado con un tinte de color
-(morado, ámbar, verde) según el tipo de paso.
+Barra lateral oscura + contenido claro, con tarjetas de resultado con un
+tinte de color (morado, ámbar, verde) según el tipo de paso.
 
 Cambiar el look de la app implica tocar solo este archivo, no cada vista.
 """

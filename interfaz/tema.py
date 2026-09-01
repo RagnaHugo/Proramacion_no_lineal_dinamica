@@ -1,32 +1,38 @@
 """Paleta de colores compartida por toda la interfaz.
 
+Tomada de la imagen de referencia (interfaz/image.png): barra lateral
+oscura + contenido claro, con tarjetas de resultado con un tinte de color
+(morado, ámbar, verde) según el tipo de paso.
+
 Cambiar el look de la app implica tocar solo este archivo, no cada vista.
 """
 
-FONDO = "#090C15"
-PANEL = "#0F1524"
-TARJETA = "#141B2D"
-BORDE = "#263354"
-BORDE_SUAVE = "#1E2945"
+# --- Barra lateral (oscura, como en la referencia) ---
+SIDEBAR = "#0B1020"
+SIDEBAR_TARJETA = "#131A30"
+SIDEBAR_BORDE = "#232C48"
+SIDEBAR_TEXTO = "#FFFFFF"
+SIDEBAR_TEXTO_SUAVE = "#94A3B8"
 
-TEXTO = "#FFFFFF"
-TEXTO_SUAVE = "#8FA3BF"
-TEXTO_TENUE = "#E2E8F0"
+# --- Contenido principal (claro, como en la referencia) ---
+FONDO = "#F1F5F9"
+TARJETA = "#FFFFFF"
+BORDE = "#E2E8F0"
+BORDE_SUAVE = "#E2E8F0"
 
-ACENTO = "#00F5C4"
-ACENTO_MORADO = "#7C3AED"
-ACENTO_AZUL = "#3B82F6"
+TEXTO = "#0F172A"
+TEXTO_SUAVE = "#64748B"
+TEXTO_INVERSO = "#FFFFFF"  # texto sobre superficies de color sólido (botones, tiles activos)
+
 PRIMARIO = "#2563EB"
-ERROR = "#EF4444"
-VERDE = "#22C55E"
-AMBAR = "#F59E0B"
-EJES = "#3B4A6B"
+ACENTO = "#2563EB"
+ERROR = "#DC2626"
+VERDE = "#16A34A"
+AMBAR = "#D97706"
+EJES = "#94A3B8"
 
 # Variantes de tarjeta con un leve tinte de color, para diferenciar
-# tipos de resultado (función/derivadas vs. clasificación/resultado)
-# manteniendo el tema oscuro general.
-TARJETA_MORADA = "#1B1533"
-TARJETA_AMBAR = "#241B0D"
-TARJETA_VERDE = "#0F2419"
-
-SIDEBAR = "#0B0F1C"
+# tipos de resultado (función/derivadas vs. clasificación/resultado).
+TARJETA_MORADA = "#EEF2FF"
+TARJETA_AMBAR = "#FFFBEB"
+TARJETA_VERDE = "#F0FDF4"

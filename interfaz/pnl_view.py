@@ -173,6 +173,8 @@ def build_pnl_view(page: ft.Page):
         area_resultados.controls = [ft.Container(col=COL_COMPLETA, content=marcador_vacio)]
         page.update()
 
+    estilo_boton_recto = ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=0))
+
     boton_resolver = ft.Button(
         content=ft.Row(
             [ft.Icon(ft.Icons.PLAY_ARROW_ROUNDED, size=16), ft.Text("Resolver función")],
@@ -180,7 +182,8 @@ def build_pnl_view(page: ft.Page):
             tight=True,
         ),
         bgcolor=tema.PRIMARIO,
-        color=tema.TEXTO,
+        color=tema.TEXTO_INVERSO,
+        style=estilo_boton_recto,
         on_click=on_resolver,
     )
 
@@ -190,6 +193,7 @@ def build_pnl_view(page: ft.Page):
             spacing=6,
             tight=True,
         ),
+        style=estilo_boton_recto,
         on_click=on_limpiar,
     )
 

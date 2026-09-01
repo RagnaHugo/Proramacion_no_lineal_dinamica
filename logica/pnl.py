@@ -51,21 +51,21 @@ def graficar_funcion(expr, x_min=-10, x_max=10, puntos_criticos=None):
         ys.append(yv)
 
     fig, ax = plt.subplots(figsize=(4.2, 3.6), dpi=130)
-    fig.patch.set_facecolor("#0F1524")
-    ax.set_facecolor("#0F1524")
+    fig.patch.set_facecolor("#FFFFFF")
+    ax.set_facecolor("#FFFFFF")
 
-    ax.plot(xs, ys, color="#00F5C4", linewidth=2)
-    ax.axhline(0, color="#3B4A6B", linewidth=1)
-    ax.axvline(0, color="#3B4A6B", linewidth=1)
+    ax.plot(xs, ys, color="#2563EB", linewidth=2)
+    ax.axhline(0, color="#94A3B8", linewidth=1)
+    ax.axvline(0, color="#94A3B8", linewidth=1)
 
     if puntos_criticos:
         for cx, cy in puntos_criticos:
-            ax.plot(cx, cy, "o", color="#7C3AED", markersize=7)
+            ax.plot(cx, cy, "o", color="#16A34A", markersize=7)
 
-    ax.tick_params(colors="#8FA3BF", labelsize=8)
+    ax.tick_params(colors="#64748B", labelsize=8)
     for spine in ax.spines.values():
-        spine.set_color("#263354")
-    ax.grid(True, color="#1E2945", linewidth=0.6)
+        spine.set_color("#E2E8F0")
+    ax.grid(True, color="#F1F5F9", linewidth=0.6)
 
     buf = io.BytesIO()
     fig.tight_layout()

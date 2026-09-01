@@ -1,10 +1,9 @@
 """Vista: Módulo PNL — ingresar función, resolver y ver el análisis.
 
-El resultado se organiza en pestañas (Resumen / Procedimiento / Valores
-críticos / Extremos / Gráfica), como en la imagen de referencia. Dentro de
-"Resumen" las tarjetas van numeradas para que se lea como una secuencia de
-pasos. Cada pestaña tiene su propio scroll interno, así nada se corta ni
-se solapa si la ventana es angosta o hay varios puntos críticos.
+El resultado se organiza en pestañas (Resumen / Procedimiento / Gráfica).
+Dentro de "Resumen" las tarjetas van numeradas para que se lea como una
+secuencia de pasos. Cada pestaña tiene su propio scroll interno, así nada
+se corta ni se solapa si la ventana es angosta o hay varios puntos críticos.
 """
 
 import itertools
@@ -193,46 +192,29 @@ def build_pnl_view(page: ft.Page):
                 )
             )
 
+        bloques.append(ft.Container(height=4))
+        bloques.append(
+            ft.Text("Paso 5 — Reemplazar en la función objetivo para hallar el valor óptimo",
+                    size=13, weight=ft.FontWeight.BOLD, color=tema.ACENTO)
+        )
+        puntos_no_indeterminados = [p for p in resultado.puntos if p.tipo != "Indeterminado"]
+        if not puntos_no_indeterminados:
+            bloques.append(ft.Text("No hay un punto óptimo que sustituir.", size=14, color=tema.TEXTO_SUAVE))
+        for punto in puntos_no_indeterminados:
+            bloques.append(
+                ft.Row(
+                    controls=[
+                        _texto_monoespaciado(f"{resultado.nombre}({punto.x_str}) =", size=14, color=tema.TEXTO_SUAVE),
+                        _texto_monoespaciado(f"“{punto.y_str}”", size=14, color=tema.VERDE),
+                        ft.Text(f"(valor óptimo — {punto.tipo.lower()})", size=12, color=tema.TEXTO_SUAVE, italic=True),
+                    ],
+                    spacing=6,
+                )
+            )
+
         return _pagina_pestania([
             tarjeta_resultado("PROCEDIMIENTO COMPLETO", ft.Column(bloques, spacing=6), col=COL_COMPLETA),
         ])
-
-    def _pestania_valores_criticos(resultado):
-        return _pagina_pestania([
-            tarjeta_resultado(
-                "VALORES CRÍTICOS",
-                ft.Column(
-                    controls=[
-                        ft.Text("Igualando la primera derivada a cero:", size=13, color=tema.TEXTO_SUAVE),
-                        _texto_monoespaciado(resultado.ecuacion_critica_str, size=18),
-                        ft.Container(height=12),
-                        *([_texto_monoespaciado(v, size=16, color=tema.TEXTO_SUAVE) for v in resultado.valores_criticos_str]
-                          or [ft.Text("No se encontraron valores críticos reales.", size=14, color=tema.TEXTO_SUAVE)]),
-                        ft.Container(height=12),
-                        insignia(f"{len(resultado.puntos)} punto(s) crítico(s) encontrado(s)", tema.ACENTO),
-                    ],
-                ),
-                bgcolor=tema.TARJETA_AMBAR,
-                col=COL_COMPLETA,
-            ),
-        ])
-
-    def _pestania_extremos(resultado):
-        if not resultado.puntos:
-            return _pagina_pestania([
-                tarjeta_resultado(
-                    "EXTREMOS",
-                    ft.Text("No hay puntos críticos reales, por lo tanto no hay máximos ni mínimos que clasificar.",
-                            size=13, color=tema.TEXTO_SUAVE),
-                    col=COL_COMPLETA,
-                )
-            ])
-        total = len(resultado.puntos)
-        tarjetas = []
-        for i, punto in enumerate(resultado.puntos, start=1):
-            tarjetas.append(_tarjeta_clasificacion(punto, i, total))
-            tarjetas.append(_tarjeta_punto(punto, i, total))
-        return _pagina_pestania([ft.ResponsiveRow(controls=tarjetas, run_spacing=16, spacing=16)])
 
     def _pestania_grafica(resultado):
         return _pagina_pestania([
@@ -249,7 +231,7 @@ def build_pnl_view(page: ft.Page):
 
     def _construir_tabs(resultado):
         return ft.Tabs(
-            length=5,
+            length=3,
             selected_index=0,
             content=ft.Column(
                 controls=[
@@ -257,8 +239,6 @@ def build_pnl_view(page: ft.Page):
                         tabs=[
                             ft.Tab(label="Resumen"),
                             ft.Tab(label="Procedimiento"),
-                            ft.Tab(label="Valores críticos"),
-                            ft.Tab(label="Extremos"),
                             ft.Tab(label="Gráfica"),
                         ],
                         label_color=tema.PRIMARIO,
@@ -271,8 +251,6 @@ def build_pnl_view(page: ft.Page):
                             controls=[
                                 _pestania_resumen(resultado),
                                 _pestania_procedimiento(resultado),
-                                _pestania_valores_criticos(resultado),
-                                _pestania_extremos(resultado),
                                 _pestania_grafica(resultado),
                             ],
                         ),

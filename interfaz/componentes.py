@@ -35,8 +35,8 @@ def tarjeta_modulo(titulo, subtitulo, on_click, activa=False, deshabilitada=Fals
     color_subtitulo = tema.TEXTO_INVERSO if activa else tema.TEXTO_SUAVE
 
     controles_texto = [
-        ft.Text(titulo, size=28, weight=ft.FontWeight.BOLD, color=color_titulo),
-        ft.Text(subtitulo, size=12, color=color_subtitulo),
+        ft.Text(titulo, size=28, weight=ft.FontWeight.BOLD, color=color_titulo, text_align=ft.TextAlign.CENTER),
+        ft.Text(subtitulo, size=12, color=color_subtitulo, text_align=ft.TextAlign.CENTER),
     ]
     if etiqueta:
         controles_texto.append(insignia(etiqueta, tema.TEXTO_SUAVE))
@@ -57,7 +57,7 @@ def tarjeta_modulo(titulo, subtitulo, on_click, activa=False, deshabilitada=Fals
 
     return ft.Container(
         content=contenido,
-        width=160,
+        width=200,
         height=140,
         border_radius=0,
         padding=ft.Padding.all(16),

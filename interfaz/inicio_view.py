@@ -1,6 +1,6 @@
 """Vista: Inicio — bienvenida y acceso a los módulos."""
 
-import flet as ft
+import libreria_grafica_hugo as ft
 
 from . import tema
 from .componentes import tarjeta_modulo

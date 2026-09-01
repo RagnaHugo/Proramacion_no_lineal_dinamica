@@ -1,4 +1,4 @@
-import flet as ft
+import libreria_grafica_hugo as ft
 
 from interfaz import tema
 from interfaz.shell import build_shell

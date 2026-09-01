@@ -1,6 +1,6 @@
 """Barra lateral persistente: logo, navegación y datos del proyecto."""
 
-import flet as ft
+import libreria_grafica_hugo as ft
 
 from . import datos_proyecto, tema
 from .componentes import insignia

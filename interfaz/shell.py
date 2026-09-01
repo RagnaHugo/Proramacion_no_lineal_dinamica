@@ -5,7 +5,7 @@ vez de mutar controles ya montados: es el mismo patrón simple usado en
 toda la app y evita mantener estado de widgets vivos entre vistas.
 """
 
-import flet as ft
+import libreria_grafica_hugo as ft
 
 from .componentes import envoltura_contenido
 from .informacion_view import build_informacion_view

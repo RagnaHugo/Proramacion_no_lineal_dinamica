@@ -6,7 +6,7 @@ tarjeta declara cuánto ancho ocupa por breakpoint (`col`), así se
 reacomodan solas en vez de solaparse cuando la ventana es angosta.
 """
 
-import flet as ft
+import libreria_grafica_hugo as ft
 
 from logica.pnl import resolver_pnl
 

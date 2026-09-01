@@ -1,6 +1,6 @@
 """Widgets reutilizables entre vistas (inicio, módulos, etc.)."""
 
-import flet as ft
+import libreria_grafica_hugo as ft
 
 from . import tema
 

@@ -23,8 +23,8 @@ ALTURA_TARJETA_RESUMEN = 210  # todas las tarjetas de la grilla "Resumen" miden 
 
 # Etiquetas de esquina "d/dx" y "d²/dx²": iguales siempre, se renderizan una
 # sola vez al importar el módulo (logica.formula ya las cachea igual).
-_IMG_DDX = renderizar_formula(r"\frac{d}{dx}", color=tema.TEXTO_SUAVE, fontsize=15)
-_IMG_D2DX2 = renderizar_formula(r"\frac{d^2}{dx^2}", color=tema.TEXTO_SUAVE, fontsize=15)
+_IMG_DDX = renderizar_formula(r"\frac{d}{dx}", color=tema.TEXTO_SUAVE, fontsize=24)
+_IMG_D2DX2 = renderizar_formula(r"\frac{d^2}{dx^2}", color=tema.TEXTO_SUAVE, fontsize=24)
 
 
 def _imagen_formula(b64, height=30):
@@ -138,7 +138,7 @@ def build_pnl_view(page: ft.Page):
                 bgcolor=tema.TARJETA_MORADA,
                 col=COL_MITAD,
                 height=ALTURA_TARJETA_RESUMEN,
-                esquina=icono(iconos.LOGO, size=22, color=tema.PRIMARIO),
+                esquina=icono(iconos.LOGO, size=30, color=tema.PRIMARIO),
             ),
             tarjeta_resultado(
                 f"{next(n)}. PRIMERA DERIVADA",
@@ -146,7 +146,7 @@ def build_pnl_view(page: ft.Page):
                 bgcolor=tema.TARJETA_MORADA,
                 col=COL_MITAD,
                 height=ALTURA_TARJETA_RESUMEN,
-                esquina=_imagen_formula(_IMG_DDX, height=26),
+                esquina=_imagen_formula(_IMG_DDX, height=38),
             ),
             tarjeta_resultado(
                 f"{next(n)}. SEGUNDA DERIVADA",
@@ -154,7 +154,7 @@ def build_pnl_view(page: ft.Page):
                 bgcolor=tema.TARJETA_AMBAR,
                 col=COL_MITAD,
                 height=ALTURA_TARJETA_RESUMEN,
-                esquina=_imagen_formula(_IMG_D2DX2, height=26),
+                esquina=_imagen_formula(_IMG_D2DX2, height=38),
             ),
             tarjeta_resultado(
                 f"{next(n)}. VALORES CRÍTICOS",

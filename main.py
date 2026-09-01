@@ -11,6 +11,7 @@ def main(page: ft.Page):
     page.bgcolor = tema.FONDO
     page.fonts = {tema.FUENTE: "fuentes/Inter.ttf"}
     page.theme = ft.Theme(font_family=tema.FUENTE)
+    page.window.icon = "icono_app.ico"
     page.add(build_shell(page))
 
 
